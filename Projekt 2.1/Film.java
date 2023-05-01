@@ -1,11 +1,11 @@
 public class Film {
-    // Atributy
+
     public String nazev;
     public String reziser;
     public int rokVydani;
   
 
-    // Konstruktor
+
     public Film(String nazev, String reziser, int rokVydani) {
         this.nazev = nazev;
         this.reziser = reziser;
@@ -13,16 +13,7 @@ public class Film {
        
         
         }   
-       // public AnimovanyFilm(String nazev, String reziser, int rokVydani, List<String> animatori, int vekovaHranice) {
-        //this.nazev = nazev;
-        //this.reziser = reziser;
-        //this.rokVydani = rokVydani;
-        //this.animatori = animatori;
-        //this.vekovaHranice = vekovaHranice;
-    //}
-
-    // Metody pro přístup k atributům
-    public String getNazev() {
+        public String getNazev() {
         return nazev;
     }
 

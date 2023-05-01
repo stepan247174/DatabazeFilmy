@@ -14,11 +14,11 @@ public class FilmManager {
     public ArrayList<AnimovanyFilm> animovaneFilmy;
     List<String>vsichni;
 
-    public static sqlite sqlDatabase = new sqlite(); // instance třídy pro práci s SQL databází
+    public static sqlite sqlDatabase = new sqlite(); 
     
-    public FilmManager() throws SQLException { // inicializace instance pro práci s databází
-        this.animovaneFilmy =  new ArrayList<AnimovanyFilm>(); //sqlDatabase.getAnimaky();
-        this.hraneFilmy = new ArrayList<HranyFilm>();      //sqlDatabase.getFilms();
+    public FilmManager() throws SQLException { 
+        this.animovaneFilmy =  new ArrayList<AnimovanyFilm>();
+        this.hraneFilmy = new ArrayList<HranyFilm>();      
     }
     
     public void pridejFilm(String nazev, String reziser, int rokVydani, ArrayList<String> herci, int vekovaHranice, ArrayList<String> animatori, int hodnoceni) {
@@ -44,7 +44,7 @@ public class FilmManager {
     }
     
     public void upravFilm(String nazev, String novyNazev, String novyReziser, int novyRokVydani, ArrayList<String> noviAnimatori, int novaVekovaHranice, ArrayList<String> noviHerci) throws SQLException {
-        // Najde film podle zadaného názvu a provede úpravu jeho vlastností na základě zadaných parametrů
+        
         Film film = this.najdiFilm(nazev);
         if (film instanceof AnimovanyFilm) {
             AnimovanyFilm animovanyFilm = (AnimovanyFilm) film;
@@ -62,13 +62,13 @@ public class FilmManager {
     }
     
     public void smazFilm(String nazev) throws SQLException {
-        // Najde film podle zadaného názvu a smaže ho ze seznamu filmů
+       
         Film film = this.najdiFilm(nazev);
         animovaneFilmy.remove(film);
     }
     
     public void pridejHodnoceni(String nazev, int bodoveHodnoceni, int hvezdyHodnoceni) throws SQLException {
-        // Najde film podle zadaného názvu a přidá hodnocení na základě zadaných parametrů
+        
         HranyFilm hranyFilm = new HranyFilm(nazev, nazev, bodoveHodnoceni, vsichni, hvezdyHodnoceni);
         Film film = this.najdiFilm(nazev);
         Hodnoceni hodnoceni = new Hodnoceni(bodoveHodnoceni, hvezdyHodnoceni);
@@ -76,7 +76,7 @@ public class FilmManager {
     }
     
     public void vypisFilmy(){
-        for (Film film : sqlDatabase.getFilms()) {
+        for (Film film : sqlDatabase.getFilms(hraneFilmy)) {
         System.out.println(film.toString());
         }
     }
@@ -88,8 +88,7 @@ public class FilmManager {
         }
         return null;
     }
-    // Výpis herců nebo animátorů, kteří se podíleli na více než jednom filmu
-    public void vypisHercuAnimatoru(List<String> herci, List<String>animatori, List<String>vsichni){
+       public void vypisHercuAnimatoru(List<String> herci, List<String>animatori, List<String>vsichni){
         vsichni.addAll(herci);
         vsichni.addAll(animatori);
 
@@ -102,19 +101,19 @@ public class FilmManager {
             }
         }
     }
-    //Výpis filmů podle herce
+
     public void vypisPodleHerce(List<String> herci){
         HranyFilm hranyFilm = new HranyFilm(null, null, 0, herci, 0);
-        for (Film film : sqlDatabase.getFilms()) {
+        for (Film film : sqlDatabase.getFilms(hraneFilmy)) {
             if (hranyFilm.getHerci().contains(herci)) {
                 System.out.println(film.getNazev());
             }
         }
     }
-    //Výpis filmů podle animátora
+
     public void vypisPodleAnimatora(List<String> animatori){
         AnimovanyFilm animovanyFilm = new AnimovanyFilm(null, null, 0, animatori, 0, 0);
-        for (Film film : sqlDatabase.getFilms()){
+        for (Film film : sqlDatabase.getFilms(hraneFilmy)){
             if (animovanyFilm.getAnimatori().contains(animatori)){
                 System.out.println(film.getNazev());
 
@@ -124,7 +123,7 @@ public class FilmManager {
     public void ulozDoSouboru(String Databazetxt) {
         try {
             PrintWriter writer = new PrintWriter(Databazetxt, "UTF-8");
-            List<HranyFilm> hraneFilmy = sqlDatabase.getFilms();    // výpis hraných
+            List<HranyFilm> hraneFilmy = sqlDatabase.getFilms(null);    
             for (HranyFilm film : hraneFilmy) {
                 writer.println("Zanr: Hrany");
                 writer.println("Nazev: " + film.getNazev());
@@ -133,8 +132,8 @@ public class FilmManager {
                 writer.println("Reziser: " + film.getReziser());
                 writer.println("Herci: " + film.getHerci());
             }
-            List<AnimovanyFilm> animovaneFilmy = sqlDatabase.getAnimaky();
-            for (AnimovanyFilm film : animovaneFilmy) {        // výpis animovaných
+            List<AnimovanyFilm> animovaneFilmy = sqlDatabase.getAnimaky(null);
+            for (AnimovanyFilm film : animovaneFilmy) {        
                 writer.println("Zanr: Animovany");
                 writer.println("Nazev: " + film.getNazev());
                 writer.println("Rok: " + film.getRokVydani());

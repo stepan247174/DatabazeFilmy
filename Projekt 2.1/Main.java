@@ -24,9 +24,9 @@ public class Main {
             System.out.println("13. Načtení databáze z SQL databáze");
             System.out.println("14. Konec");
 
-            System.out.print("\nVyberte akci (1-14): ");
+            System.out.println("\nVyberte akci (1-14): ");
             int volba = scanner.nextInt();
-            scanner.nextLine(); // vyčištění bufferu
+            scanner.nextLine();
             
            
             switch (volba) {

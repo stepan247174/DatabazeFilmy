@@ -1,4 +1,4 @@
-//import java.beans.Statement;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,14 +12,13 @@ public class sqlite {
     private ArrayList<HranyFilm> films;
     private ArrayList<AnimovanyFilm> animaky;
   Connection conn = null;
-  // připojení k databázi
+
 
   public static void java(String[] args) {
     Connection conn = null;
     try {
-      // parametry databáze
       String url = "jdbc:sqlite:myDB.db";
-      // vytvoření spojení s databází
+
       conn = DriverManager.getConnection(url);
 
       System.out.println("Pripojeni k databazi probehlo uspesne");
@@ -36,7 +35,7 @@ public class sqlite {
       }
     }
   }
-  // vytvoření tabulky
+
   public static void createTable() {
     String url = "jdbc:sqlite:myDB.db";
     String sql = "CREATE TABLE IF NOT EXISTS filmy (\n"
@@ -103,14 +102,25 @@ rs.getString("herci"));
             System.out.println(e.getMessage());
         }
       }
-       public ArrayList<HranyFilm> getFilms() {
-        return this.films;
+       public ArrayList<HranyFilm> getFilms(ArrayList<HranyFilm> hraneFilmy) {
+        ArrayList<HranyFilm> filmy = new ArrayList<>();
+    for (HranyFilm film : hraneFilmy) {
+        if (film instanceof HranyFilm) {
+            filmy.add(film);
+        }
     }
+    return filmy;
+  }
 
-    public ArrayList<AnimovanyFilm> getAnimaky() {
-        return this.animaky;
+    public ArrayList<AnimovanyFilm> getAnimaky(ArrayList<AnimovanyFilm> animovaneFilmy) {
+        ArrayList<AnimovanyFilm> animaky = new ArrayList<>();
+    for (AnimovanyFilm film : animovaneFilmy) {
+        if (film instanceof AnimovanyFilm) {
+            animaky.add(film);
     }
-      
+  }
+  return animaky;
     }
+  }
 
 
